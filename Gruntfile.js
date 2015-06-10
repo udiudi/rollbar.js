@@ -1,3 +1,4 @@
+var util = require('util');
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.js');
 
@@ -84,20 +85,34 @@ module.exports = function(grunt) {
       prefix: 'v',
       commit: false
     },
+    sauce_tunnel: {
+      options: {
+        username: process.env.SAUCE_USERNAME,
+        key: process.env.SAUCE_ACCESS_KEY,
+        identifier: process.env.TRAVIS_JOB_NUMBER,
+        tunnelTimeout: 120
+      },
+      server: {}
+    },
     'saucelabs-mocha': {
       all: {
         options: {
-          urls: ['http://localhost:3000/test/rollbar.html'],
-                 //'http://localhost:3000/test/shim.html',
-                 //'http://localhost:3000/test/notifier.html',
-                 //'http://localhost:3000/test/components.html'],
-          tunnelTimeout: 5,
+          urls: testFiles,
+          tunnelTimeout: 180,
           build: process.env.TRAVIS_JOB_ID,
-          concurrency: 3,
+          throttled: 10,
+          concurrency: 10,
           browsers: browsers,
           testname: "mocha tests",
           username: process.env.SAUCE_USERNAME,
-          key: process.env.SAUCE_ACCESS_KEY
+          key: process.env.SAUCE_ACCESS_KEY,
+          onTestComplete: function(result, callback) {
+            console.log(util.inspect(result));
+          },
+          sauceConfig: {
+            'video-upload-on-pass': false,
+            'idle-timeout': 60
+          }
         }
       }
     }
