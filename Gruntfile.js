@@ -100,15 +100,11 @@ module.exports = function(grunt) {
           urls: testFiles,
           tunnelTimeout: 180,
           build: process.env.TRAVIS_JOB_ID,
-          throttled: 10,
-          concurrency: 10,
+          throttled: 3,
           browsers: browsers,
           testname: "mocha tests",
           username: process.env.SAUCE_USERNAME,
           key: process.env.SAUCE_ACCESS_KEY,
-          onTestComplete: function(result, callback) {
-            console.log(util.inspect(result));
-          },
           sauceConfig: {
             'video-upload-on-pass': false,
             'idle-timeout': 60

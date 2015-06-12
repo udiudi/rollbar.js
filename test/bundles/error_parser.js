@@ -1,3 +1,5 @@
+var reporter = require('../lib/sauce_reporter');
+
 require('script!../lib/mocha/mocha.js');
 require('script!../lib/chai/chai.js');
 require('script!../lib/sinon/sinon-1.7.3.js');
@@ -18,8 +20,12 @@ afterEach(function() {
 
 require('../error_parser.test.js');
 
+var runner;
+
 if (window.mochaPhantomJS) {
   mochaPhantomJS.run();
 } else {
-  mocha.run();
+  runner = mocha.run();
 }
+
+reporter.setupMochaReporter(runner, window);
