@@ -1,5 +1,6 @@
 {
-  "name": "rollbar",
+  "name": "rollbar-browser",
+  "description": "Easy and powerful error tracking for Browser Javascript",
   "version": "1.4.4",
   "repository": {
     "type": "git",
